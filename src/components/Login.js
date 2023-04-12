@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Login = () => {
@@ -6,13 +6,16 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
+  useEffect(() => {
+    console.log('authToken:', localStorage.getItem('authToken'));
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('/users/login', { username, password });
       setMessage(response.data.message);
       localStorage.setItem('authToken', response.data.token);
-      console.log('authToken stored:', localStorage.getItem('authToken')); // Added console.log statement
     } catch (error) {
       setMessage(error.response.data.message);
     }
@@ -42,3 +45,4 @@ const Login = () => {
 };
 
 export default Login;
+
