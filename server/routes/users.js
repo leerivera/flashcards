@@ -2,6 +2,7 @@ const router = require('express').Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const createFlashcard = require('../models/User');
 dotenv.config();
 
 // ...

@@ -1,7 +1,8 @@
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Routes, Link } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/Login';
 import FlashcardManager from './components/FlashcardManager';
+import CreateFlashcard from './components/CreateFlashcard';
 
 function App() {
   return (
@@ -10,16 +11,20 @@ function App() {
         <Link to="/register">Register</Link>
         <Link to="/login">Login</Link>
         <Link to="/cards">Flashcard Manager</Link>
+        <Link to="/create">Create Flashcard</Link>
       </nav>
 
-      <Switch>
-        <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
-        <Route path="/cards" component={FlashcardManager} />
-      </Switch>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cards" element={<FlashcardManager />} />
+        <Route path="/create" element={<CreateFlashcard />} />
+      </Routes>
     </div>
   );
 }
 
 export default App;
+
+
 
