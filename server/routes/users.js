@@ -46,7 +46,23 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.get('/cards',  async (req, res) => {
+const getUserIdFromToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ message: 'No authorization header provided.' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    req.userId = decoded.id;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: 'Invalid token.' });
+  }
+};
+
+router.get('/cards', getUserIdFromToken,  async (req, res) => {
   try {
     const user = await User.findById(req.userId);
     if (!user) {
@@ -59,7 +75,7 @@ router.get('/cards',  async (req, res) => {
   }
 });
 
-router.post('/cards',  async (req, res) => {
+router.post('/cards', getUserIdFromToken, async (req, res) => {
   try {
     const { front, back } = req.body;
 
@@ -78,7 +94,7 @@ router.post('/cards',  async (req, res) => {
   }
 });
 
-router.put('/cards/:id',  async (req, res) => {
+router.put('/cards/:id', getUserIdFromToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { front, back } = req.body;
@@ -103,7 +119,7 @@ router.put('/cards/:id',  async (req, res) => {
   }
 });
 
-router.delete('/cards/:id',  async (req, res) => {
+router.delete('/cards/:id', getUserIdFromToken, async (req, res) => {
   try {
     const { id } = req.params;
 

@@ -12,6 +12,7 @@ const Login = () => {
       const response = await axios.post('/users/login', { username, password });
       setMessage(response.data.message);
       localStorage.setItem('authToken', response.data.token);
+      console.log('authToken stored:', localStorage.getItem('authToken')); // Added console.log statement
     } catch (error) {
       setMessage(error.response.data.message);
     }

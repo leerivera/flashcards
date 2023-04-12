@@ -9,7 +9,11 @@ const CreateFlashcard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const authToken = localStorage.getItem('authToken');
-
+    
+    // Log the authToken and headers object
+    console.log('authToken:', authToken);
+    console.log('headers:', { Authorization: `Bearer ${authToken}` });
+  
     try {
       const response = await axios.post(
         '/users/cards',
@@ -20,7 +24,9 @@ const CreateFlashcard = () => {
       setFront('');
       setBack('');
     } catch (error) {
-      setMessage('Error creating flashcard.');
+      setMessage(
+        `Error creating flashcard. Status: ${error.response.status}, Message: ${error.response.data.message}`
+      );
     }
   };
 
